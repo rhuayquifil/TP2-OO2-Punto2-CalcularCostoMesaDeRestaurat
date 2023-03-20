@@ -4,9 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import modelo.Bebida;
-import modelo.Consumicion;
 import modelo.Item;
-import modelo.Menu;
 import modelo.Mesa;
 import modelo.Pedido;
 import modelo.Plato;
@@ -20,19 +18,19 @@ public class Main {
 		Plato milanesa = new Plato("Milanesa de Carne", 900);
 		Plato pureDePapa = new Plato("Pure de Papa", 500);
 
-		Set<Consumicion> listaConsumisionesMenu = new HashSet<Consumicion>();
-		listaConsumisionesMenu.add(cocaCola);
-		listaConsumisionesMenu.add(cerveza);
-		listaConsumisionesMenu.add(milanesa);
-		listaConsumisionesMenu.add(pureDePapa);
+//		Set<Consumicion> listaConsumisionesMenu = new HashSet<Consumicion>();
+//		listaConsumisionesMenu.add(cocaCola);
+//		listaConsumisionesMenu.add(cerveza);
+//		listaConsumisionesMenu.add(milanesa);
+//		listaConsumisionesMenu.add(pureDePapa);
 //		System.out.println(listaConsumisionesMenu);
 
-		Menu miMenu = new Menu("R.E.H Servicio Tecnico", listaConsumisionesMenu);
+//		Menu miMenu = new Menu("R.E.H Servicio Tecnico", listaConsumisionesMenu);
 //		System.out.println(miMenu);
 
 		Set<Item> listaConsumisiones = new HashSet<Item>();
 		listaConsumisiones.add(new Item(cocaCola, 2));
-		listaConsumisiones.add(new Item(milanesa, 1));
+//		listaConsumisiones.add(new Item(milanesa, 1));
 //		listaConsumisiones.add(new Item(pureDePapa, 2));
 //		System.out.println(listaConsumisiones);
 
