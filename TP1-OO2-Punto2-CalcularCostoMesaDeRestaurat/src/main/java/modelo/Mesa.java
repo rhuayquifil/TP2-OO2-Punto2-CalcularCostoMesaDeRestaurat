@@ -19,9 +19,7 @@ public class Mesa {
 	}
 
 	public void nuevoPedido(Pedido nuevoPedido) {
-		if (nuevoPedido instanceof Pedido) {
-			listaPedido.add(nuevoPedido);
-		}
+		listaPedido.add(nuevoPedido);
 	}
 
 	@Override

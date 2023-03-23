@@ -8,7 +8,7 @@ import modelo.Item;
 import modelo.Mesa;
 import modelo.Pedido;
 import modelo.Plato;
-import modelo.Tarjeta;
+import modelo.Visa;
 
 public class Main {
 
@@ -30,7 +30,7 @@ public class Main {
 
 		Set<Item> listaConsumisiones = new HashSet<Item>();
 		listaConsumisiones.add(new Item(cocaCola, 2));
-//		listaConsumisiones.add(new Item(milanesa, 1));
+		listaConsumisiones.add(new Item(milanesa, 1));
 //		listaConsumisiones.add(new Item(pureDePapa, 2));
 //		System.out.println(listaConsumisiones);
 
@@ -41,10 +41,10 @@ public class Main {
 		miMesa.nuevoPedido(miPedido);
 //		System.out.println(miMesa);
 
-//		Visa miTarjeta = new Visa();
+		Visa miTarjeta = new Visa();
 //		Mastercard miTarjeta = new Mastercard();
 //		ComarcaPlus miTarjeta = new ComarcaPlus();
-		Tarjeta miTarjeta = new Tarjeta();
+//		Tarjeta miTarjeta = new Tarjeta();
 
 		try {
 			System.out.println(miMesa.calcularCostoDeMesa(miTarjeta, 5));
