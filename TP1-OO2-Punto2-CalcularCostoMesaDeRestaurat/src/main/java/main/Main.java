@@ -1,9 +1,14 @@
 package main;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 import modelo.Bebida;
+import modelo.Copiador;
 import modelo.Item;
 import modelo.Mesa;
 import modelo.Pedido;
@@ -37,18 +42,24 @@ public class Main {
 		Pedido miPedido = new Pedido(1, listaConsumisiones);
 //		System.out.println(miPedido);
 
-		Mesa miMesa = new Mesa(1);
-		miMesa.nuevoPedido(miPedido);
-//		System.out.println(miMesa);
-
-		Visa miTarjeta = new Visa();
-//		Mastercard miTarjeta = new Mastercard();
-//		ComarcaPlus miTarjeta = new ComarcaPlus();
-//		Tarjeta miTarjeta = new Tarjeta();
-
 		try {
+			Mesa miMesa = new Mesa(1, new Copiador(System.in, new FileOutputStream(
+					new File("C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"), true)));
+
+			miMesa.nuevoPedido(miPedido);
+//			System.out.println(miMesa);
+
+			Visa miTarjeta = new Visa();
+//			Mastercard miTarjeta = new Mastercard();
+//			ComarcaPlus miTarjeta = new ComarcaPlus();
+//			Tarjeta miTarjeta = new Tarjeta();
+
 			System.out.println(miMesa.calcularCostoDeMesa(miTarjeta, 5));
 		} catch (NumberFormatException e) {
+			System.out.println(e.getMessage());
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
 	}
