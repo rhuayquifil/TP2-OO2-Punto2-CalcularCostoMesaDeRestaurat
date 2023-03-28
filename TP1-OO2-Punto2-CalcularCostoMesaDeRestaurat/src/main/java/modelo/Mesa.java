@@ -1,9 +1,12 @@
 package modelo;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import exceptions.BaseDeDatosExceptions;
+import exceptions.GuardaDatoExceptions;
+import exceptions.MesaExceptions;
 
 public class Mesa {
 
@@ -27,7 +30,7 @@ public class Mesa {
 		return "Mesa [id=" + id + ", listaPedido=" + listaPedido + "]";
 	}
 
-	public float calcularCostoDeMesa(Tarjeta tarjeta, int propina) throws IOException {
+	public float calcularCostoDeMesa(Tarjeta tarjeta, int propina) throws IOException, MesaExceptions {
 		float costoDeTodosLosPedidos = 0;
 
 		for (Pedido pedido : listaPedido) {
@@ -35,8 +38,13 @@ public class Mesa {
 			costoDeTodosLosPedidos += pedido.calcularCosto(tarjeta);
 		}
 
-		copiador.copiar(LocalDateTime.now() + " || " + (costoDeTodosLosPedidos * (1.0 + Float.valueOf("0.0" + propina)))
-				+ '\n');
+		try {
+
+			copiador.copiar(costoDeTodosLosPedidos * (1.0 + Float.valueOf("0.0" + propina)));
+
+		} catch (GuardaDatoExceptions | BaseDeDatosExceptions e) {
+			throw new MesaExceptions("Error al cargar registro");
+		}
 
 		return (float) (costoDeTodosLosPedidos * (1.0 + Float.valueOf("0.0" + propina)));
 //		return costoDeTodosLosPedidos;

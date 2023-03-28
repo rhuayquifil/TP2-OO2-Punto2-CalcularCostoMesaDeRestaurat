@@ -7,13 +7,16 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import exceptions.MesaExceptions;
+import exceptions.PropertiesExceptions;
 import modelo.Bebida;
 import modelo.Copiador;
 import modelo.Item;
 import modelo.Mesa;
 import modelo.Pedido;
 import modelo.Plato;
-import modelo.Visa;
+import modelo.Tarjeta;
+import properties.DataBase;
 
 public class Main {
 
@@ -43,23 +46,39 @@ public class Main {
 //		System.out.println(miPedido);
 
 		try {
+
+			// COPIA REGISTROS EN .TXT
+
+//			Mesa miMesa = new Mesa(1, new Copiador(System.in, new FileOutputStream(
+//					new File("C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"), true)));
+
+			// COPIA REGISTROS EN .DATABASE
+
+			DataBase properties = new DataBase(
+					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto1-SistemaDeConcurso\\TP1-OO2-Punto1-SistemaDeConcurso\\src\\main\\java\\properties\\database.properties");
+
 			Mesa miMesa = new Mesa(1, new Copiador(System.in, new FileOutputStream(
 					new File("C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"), true)));
 
 			miMesa.nuevoPedido(miPedido);
 //			System.out.println(miMesa);
 
-			Visa miTarjeta = new Visa();
+//			Visa miTarjeta = new Visa();
 //			Mastercard miTarjeta = new Mastercard();
 //			ComarcaPlus miTarjeta = new ComarcaPlus();
-//			Tarjeta miTarjeta = new Tarjeta();
+			Tarjeta miTarjeta = new Tarjeta();
 
 			System.out.println(miMesa.calcularCostoDeMesa(miTarjeta, 5));
+
 		} catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (PropertiesExceptions e) {
+			System.out.println(e.getMessage());
+		} catch (MesaExceptions e) {
 			System.out.println(e.getMessage());
 		}
 	}
