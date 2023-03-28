@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import exceptions.BaseDeDatosExceptions;
 import exceptions.GuardaDatoExceptions;
@@ -25,6 +26,14 @@ public class almacenarRegistrosEnBase implements GuardaDato {
 		try (Connection conn = DriverManager.getConnection(properties.get("url"), properties.get("usuario"),
 				properties.get("contrasena"));
 				java.sql.PreparedStatement state = conn.prepareStatement(sqlInsertRegistro)) {
+
+//			INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);
+
+			java.sql.Timestamp sqlDateFechaDesde = java.sql.Timestamp.valueOf(LocalDateTime.now());
+//			System.out.println(sqlDateFechaDesde);
+			state.setTimestamp(1, sqlDateFechaDesde);
+
+			state.setDouble(2, monto);
 
 			int cantidad = state.executeUpdate();
 

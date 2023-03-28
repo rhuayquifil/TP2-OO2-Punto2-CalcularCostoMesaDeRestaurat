@@ -1,8 +1,6 @@
 package main;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,12 +8,12 @@ import java.util.Set;
 import exceptions.MesaExceptions;
 import exceptions.PropertiesExceptions;
 import modelo.Bebida;
-import modelo.Copiador;
 import modelo.Item;
 import modelo.Mesa;
 import modelo.Pedido;
 import modelo.Plato;
-import modelo.Tarjeta;
+import modelo.Visa;
+import modelo.almacenarRegistrosEnBase;
 import properties.DataBase;
 
 public class Main {
@@ -55,18 +53,18 @@ public class Main {
 			// COPIA REGISTROS EN .DATABASE
 
 			DataBase properties = new DataBase(
-					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto1-SistemaDeConcurso\\TP1-OO2-Punto1-SistemaDeConcurso\\src\\main\\java\\properties\\database.properties");
+					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\src\\main\\java\\properties\\database.properties");
 
-			Mesa miMesa = new Mesa(1, new Copiador(System.in, new FileOutputStream(
-					new File("C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"), true)));
+			Mesa miMesa = new Mesa(1,
+					new almacenarRegistrosEnBase(properties, "INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);"));
 
 			miMesa.nuevoPedido(miPedido);
 //			System.out.println(miMesa);
 
-//			Visa miTarjeta = new Visa();
+			Visa miTarjeta = new Visa();
 //			Mastercard miTarjeta = new Mastercard();
 //			ComarcaPlus miTarjeta = new ComarcaPlus();
-			Tarjeta miTarjeta = new Tarjeta();
+//			Tarjeta miTarjeta = new Tarjeta();
 
 			System.out.println(miMesa.calcularCostoDeMesa(miTarjeta, 5));
 
