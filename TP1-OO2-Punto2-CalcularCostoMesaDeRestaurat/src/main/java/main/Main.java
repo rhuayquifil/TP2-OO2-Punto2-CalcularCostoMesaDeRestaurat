@@ -9,10 +9,11 @@ import exceptions.MesaExceptions;
 import exceptions.PropertiesExceptions;
 import modelo.Bebida;
 import modelo.Item;
+import modelo.MedioDePago;
 import modelo.Mesa;
 import modelo.Pedido;
 import modelo.Plato;
-import modelo.Visa;
+import modelo.Tarjeta;
 import modelo.almacenarRegistrosEnBase;
 import properties.DataBase;
 
@@ -61,12 +62,9 @@ public class Main {
 			miMesa.nuevoPedido(miPedido);
 //			System.out.println(miMesa);
 
-			Visa miTarjeta = new Visa();
-//			Mastercard miTarjeta = new Mastercard();
-//			ComarcaPlus miTarjeta = new ComarcaPlus();
-//			Tarjeta miTarjeta = new Tarjeta();
+			MedioDePago medioDePago = new Tarjeta();
 
-			System.out.println(miMesa.calcularCostoDeMesa(miTarjeta, 5));
+			System.out.println(miMesa.calcularCostoDeMesa(medioDePago, 5));
 
 		} catch (NumberFormatException e) {
 			System.out.println(e.getMessage());

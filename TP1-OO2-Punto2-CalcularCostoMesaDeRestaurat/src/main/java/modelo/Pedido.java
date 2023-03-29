@@ -19,12 +19,14 @@ public class Pedido {
 		return "Pedido [id=" + id + ", listaPedido=" + listaPedido + ", pedidoPago=" + pedidoPago + "]";
 	}
 
-	public float calcularCosto(Tarjeta tarjeta) {
+	public float calcularCosto(MedioDePago medioDePago) {
 		float costoPedido = 0;
+
 		for (Item item : listaPedido) {
 //			costoPedido += item.calcularCosto(tarjeta);
-			costoPedido += tarjeta.calcularCosto(item);
+			costoPedido += medioDePago.calcularCosto(item);
 		}
+
 		return costoPedido;
 	}
 }

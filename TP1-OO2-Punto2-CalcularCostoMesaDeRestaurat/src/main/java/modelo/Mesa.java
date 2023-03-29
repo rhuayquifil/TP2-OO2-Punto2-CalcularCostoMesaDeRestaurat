@@ -30,12 +30,17 @@ public class Mesa {
 		return "Mesa [id=" + id + ", listaPedido=" + listaPedido + "]";
 	}
 
-	public float calcularCostoDeMesa(Tarjeta tarjeta, int propina) throws IOException, MesaExceptions {
+	public float calcularCostoDeMesa(MedioDePago medioDePago, int propina) throws IOException, MesaExceptions {
 		float costoDeTodosLosPedidos = 0;
 
 		for (Pedido pedido : listaPedido) {
 
-			costoDeTodosLosPedidos += pedido.calcularCosto(tarjeta);
+			// MEJORAAAAA!!!!!!!!!!!!!!!!
+
+			// aca capaz se puede pagar desde el medio de pago nomas
+
+			costoDeTodosLosPedidos += pedido.calcularCosto(medioDePago);
+
 		}
 
 		try {
