@@ -7,5 +7,5 @@ import exceptions.GuardaDatoExceptions;
 
 public interface GuardaDato {
 
-	void copiar(double monto) throws IOException, GuardaDatoExceptions, BaseDeDatosExceptions;
+	void copiar(String registro) throws IOException, GuardaDatoExceptions, BaseDeDatosExceptions;
 }

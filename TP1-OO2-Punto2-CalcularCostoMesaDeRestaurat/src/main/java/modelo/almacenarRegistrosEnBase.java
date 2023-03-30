@@ -21,19 +21,20 @@ public class almacenarRegistrosEnBase implements GuardaDato {
 	}
 
 	@Override
-	public void copiar(double monto) throws IOException, GuardaDatoExceptions, BaseDeDatosExceptions {
-
+	public void copiar(String registro) throws IOException, GuardaDatoExceptions, BaseDeDatosExceptions {
 		try (Connection conn = DriverManager.getConnection(properties.get("url"), properties.get("usuario"),
 				properties.get("contrasena"));
 				java.sql.PreparedStatement state = conn.prepareStatement(sqlInsertRegistro)) {
 
 //			INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);
 
-			java.sql.Timestamp sqlDateFechaDesde = java.sql.Timestamp.valueOf(LocalDateTime.now());
-//			System.out.println(sqlDateFechaDesde);
-			state.setTimestamp(1, sqlDateFechaDesde);
+			String[] parts = registro.split("\\|");
 
-			state.setDouble(2, monto);
+//			LocalDateTime nuevo = LocalDateTime.parse(parts[0]);
+			java.sql.Timestamp fechaRegistro = java.sql.Timestamp.valueOf(LocalDateTime.parse(parts[0]));
+			state.setTimestamp(1, fechaRegistro);
+
+			state.setDouble(2, Double.valueOf(parts[1]));
 
 			int cantidad = state.executeUpdate();
 
@@ -45,6 +46,8 @@ public class almacenarRegistrosEnBase implements GuardaDato {
 
 		} catch (SQLException e) {
 			throw new BaseDeDatosExceptions("error al prosesar consulta");
+		} catch (IllegalArgumentException e) {
+			throw new BaseDeDatosExceptions("IllegalArgumentException");
 		}
 	}
 }

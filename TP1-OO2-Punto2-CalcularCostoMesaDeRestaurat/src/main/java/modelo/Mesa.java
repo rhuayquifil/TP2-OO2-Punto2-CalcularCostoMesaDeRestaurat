@@ -1,6 +1,7 @@
 package modelo;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,19 +36,17 @@ public class Mesa {
 
 		for (Pedido pedido : listaPedido) {
 
-			// MEJORAAAAA!!!!!!!!!!!!!!!!
-
-			// aca capaz se puede pagar desde el medio de pago nomas
-
 			costoDeTodosLosPedidos += pedido.calcularCosto(medioDePago);
 
 		}
 
 		try {
 
-			copiador.copiar(costoDeTodosLosPedidos * (1.0 + Float.valueOf("0.0" + propina)));
+			copiador.copiar(LocalDateTime.now().toString() + "|"
+					+ costoDeTodosLosPedidos * (1.0 + Float.valueOf("0.0" + propina)));
 
 		} catch (GuardaDatoExceptions | BaseDeDatosExceptions e) {
+//			System.out.println(e.getMessage());
 			throw new MesaExceptions("Error al cargar registro");
 		}
 
