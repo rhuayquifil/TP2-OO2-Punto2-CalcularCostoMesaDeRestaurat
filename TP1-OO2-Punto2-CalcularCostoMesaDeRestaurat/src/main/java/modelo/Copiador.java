@@ -20,6 +20,7 @@ public class Copiador implements GuardaDato {
 
 	@Override
 	public void copiar(String registro) throws IOException, GuardaDatoExceptions, BaseDeDatosExceptions {
-		output.write(registro.getBytes());
+		String guardar = registro + '\n';
+		output.write(guardar.getBytes());
 	}
 }

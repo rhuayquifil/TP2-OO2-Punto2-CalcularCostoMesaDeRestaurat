@@ -42,7 +42,7 @@ public class Mesa {
 
 		try {
 
-			copiador.copiar(LocalDateTime.now().toString() + "|"
+			copiador.copiar(LocalDateTime.now().toString() + " | "
 					+ costoDeTodosLosPedidos * (1.0 + Float.valueOf("0.0" + propina)));
 
 		} catch (GuardaDatoExceptions | BaseDeDatosExceptions e) {

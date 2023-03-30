@@ -28,7 +28,7 @@ public class almacenarRegistrosEnBase implements GuardaDato {
 
 //			INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);
 
-			String[] parts = registro.split("\\|");
+			String[] parts = registro.split(" \\| ");
 
 //			LocalDateTime nuevo = LocalDateTime.parse(parts[0]);
 			java.sql.Timestamp fechaRegistro = java.sql.Timestamp.valueOf(LocalDateTime.parse(parts[0]));
