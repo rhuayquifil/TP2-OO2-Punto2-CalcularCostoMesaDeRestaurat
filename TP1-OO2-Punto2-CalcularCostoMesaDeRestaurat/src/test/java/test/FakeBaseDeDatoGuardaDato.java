@@ -1,21 +1,24 @@
-package modelo;
+package test;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 import exceptions.BaseDeDatosExceptions;
 import exceptions.GuardaDatoExceptions;
+import modelo.Almacenamiento;
+import modelo.GuardaDato;
 
-public class BaseDeDatoGuardaDato implements GuardaDato {
+public class FakeBaseDeDatoGuardaDato implements GuardaDato {
 
+	private double resultado;
 	private Almacenamiento properties;
 	private String sqlInsertRegistro;
 
-	public BaseDeDatoGuardaDato(Almacenamiento properties, String sqlInsertRegistro) {
+	public FakeBaseDeDatoGuardaDato(Almacenamiento properties, String sqlInsertRegistro) {
 		super();
+		this.resultado = 0;
 		this.properties = properties;
 		this.sqlInsertRegistro = sqlInsertRegistro;
 	}
@@ -31,21 +34,16 @@ public class BaseDeDatoGuardaDato implements GuardaDato {
 
 			String[] parts = registro.split(" \\| ");
 
-			java.sql.Timestamp fechaRegistro = java.sql.Timestamp.valueOf(LocalDateTime.parse(parts[0]));
-			state.setTimestamp(1, fechaRegistro);
-
-			state.setDouble(2, Double.valueOf(parts[1]));
-
-			int cantidad = state.executeUpdate();
-
-			if (cantidad <= 0) {
-				throw new GuardaDatoExceptions("error al ingresar Registro");
-			}
+			resultado = Double.valueOf(parts[1]);
 
 		} catch (SQLException e) {
 			throw new BaseDeDatosExceptions("error al prosesar consulta");
 		} catch (IllegalArgumentException e) {
 			throw new BaseDeDatosExceptions("IllegalArgumentException");
 		}
+	}
+
+	double resultado() {
+		return resultado;
 	}
 }

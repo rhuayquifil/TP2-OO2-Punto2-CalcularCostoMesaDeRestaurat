@@ -1,29 +1,59 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.junit.jupiter.api.Test;
+
+import exceptions.MesaExceptions;
+import modelo.BebidaConsumicion;
+import modelo.Consumicion;
+import modelo.Item;
+import modelo.MedioDePago;
+import modelo.Mesa;
+import modelo.Pedido;
+import modelo.PlatoConsumicion;
+import modelo.VisaMedioDePago;
+
 class PruebasUnitarias {
 
-//	@Test
-//	void CalculoDeCostoConTarjetaVisa() {
-//		Bebida cocaCola = new Bebida("Coca Cola", 400);
-//		Plato milanesa = new Plato("Milanesa de Carne", 900);
-//
-//		Set<Item> listaConsumisionesPedido = new HashSet<Item>();
-//		listaConsumisionesPedido.add(new Item(cocaCola, 2));
-////		listaConsumisionesPedido.add(new Item(milanesa, 1));
-//
-//		Pedido miPedido = new Pedido(1, listaConsumisionesPedido);
-//
-//		Mesa miMesa = new Mesa(1);
-//		miMesa.nuevoPedido(miPedido);
-//
-//		Visa miTarjeta = new Visa();
-//
-//		try {
-//			assertEquals(814.8, miMesa.calcularCostoDeMesa(miTarjeta, 5), 0.001); // solo con bebidas
-//
-////			assertEquals(1759.8, miMesa.calcularCostoDeMesa(miTarjeta, 5));  // con bebidas y plato
-//		} catch (NumberFormatException e) {
-//			fail("exceptions NumberFormatException");
-//		}
-//	}
+	@Test
+	void CalculoDeCostoConTarjetaVisa() {
+		Consumicion cocaCola = new BebidaConsumicion("Coca Cola", 400);
+		Consumicion milanesa = new PlatoConsumicion("Milanesa de Carne", 900);
+
+		Set<Item> listaConsumisionesPedido = new HashSet<Item>();
+		listaConsumisionesPedido.add(new Item(cocaCola, 2));
+//		listaConsumisionesPedido.add(new Item(milanesa, 1));
+
+		Pedido miPedido = new Pedido(1, listaConsumisionesPedido);
+
+		FakeDiscoGuardaDato fake = new FakeDiscoGuardaDato(
+				"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt");
+
+		Mesa miMesa = new Mesa(1, fake);
+
+		miMesa.nuevoPedido(miPedido);
+
+		MedioDePago miTarjeta = new VisaMedioDePago();
+
+		try {
+
+			assertEquals(fake.resultado(), miMesa.calcularCostoDeMesa(miTarjeta, 5)); // solo con bebidas
+
+//			assertEquals(1759.8, miMesa.calcularCostoDeMesa(miTarjeta, 5));  // con bebidas y plato
+		} catch (NumberFormatException e) {
+			fail("exceptions NumberFormatException");
+		} catch (IOException e) {
+			fail("exceptions IOException");
+		} catch (MesaExceptions e) {
+			fail("exceptions MesaExceptions");
+		}
+	}
 
 //	@Test
 //	void CalculoDeCostoConTarjetaMastercard() {

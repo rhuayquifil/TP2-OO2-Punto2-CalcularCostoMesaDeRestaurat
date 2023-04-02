@@ -7,6 +7,7 @@ import java.util.Set;
 
 import exceptions.MesaExceptions;
 import exceptions.PropertiesExceptions;
+import modelo.BaseDeDatoGuardaDato;
 import modelo.BebidaConsumicion;
 import modelo.Item;
 import modelo.MedioDePago;
@@ -14,7 +15,6 @@ import modelo.Mesa;
 import modelo.Pedido;
 import modelo.PlatoConsumicion;
 import modelo.TarjetaMedioDePago;
-import modelo.BaseDeDatoGuardaDato;
 import properties.DataBaseAlmacenamiento;
 
 public class Main {
@@ -38,7 +38,7 @@ public class Main {
 		Set<Item> listaConsumisiones = new HashSet<Item>();
 		listaConsumisiones.add(new Item(cocaCola, 2));
 		listaConsumisiones.add(new Item(milanesa, 1));
-//		listaConsumisiones.add(new Item(pureDePapa, 2));
+		listaConsumisiones.add(new Item(pureDePapa, 2));
 //		System.out.println(listaConsumisiones);
 
 		Pedido miPedido = new Pedido(1, listaConsumisiones);
@@ -48,8 +48,8 @@ public class Main {
 
 			// COPIA REGISTROS EN .TXT
 
-//			Mesa miMesa = new Mesa(1, new Copiador(System.in, new FileOutputStream(
-//					new File("C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"), true)));
+//			Mesa miMesa = new Mesa(1, new DiscoGuardaDato(
+//					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"));
 
 			// COPIA REGISTROS EN .DATABASE
 
