@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 import exceptions.BaseDeDatosExceptions;
 import exceptions.GuardaDatoExceptions;
 
-public class almacenarRegistrosEnBase implements GuardaDato {
+public class BaseDeDatoGuardaDato implements GuardaDato {
 
 	private Almacenamiento properties;
 	private String sqlInsertRegistro;
 
-	public almacenarRegistrosEnBase(Almacenamiento properties, String sqlInsertRegistro) {
+	public BaseDeDatoGuardaDato(Almacenamiento properties, String sqlInsertRegistro) {
 		super();
 		this.properties = properties;
 		this.sqlInsertRegistro = sqlInsertRegistro;
@@ -22,6 +22,7 @@ public class almacenarRegistrosEnBase implements GuardaDato {
 
 	@Override
 	public void copiar(String registro) throws IOException, GuardaDatoExceptions, BaseDeDatosExceptions {
+
 		try (Connection conn = DriverManager.getConnection(properties.get("url"), properties.get("usuario"),
 				properties.get("contrasena"));
 				java.sql.PreparedStatement state = conn.prepareStatement(sqlInsertRegistro)) {

@@ -1,8 +1,8 @@
 package modelo;
 
-public class ComarcaPlus implements MedioDePago {
+public class ComarcaPlusMedioDePago implements MedioDePago {
 
-	public ComarcaPlus() {
+	public ComarcaPlusMedioDePago() {
 		super();
 	}
 

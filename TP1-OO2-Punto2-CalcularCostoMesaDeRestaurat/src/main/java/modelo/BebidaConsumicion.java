@@ -1,11 +1,11 @@
 package modelo;
 
-public class Plato extends Consumicion implements MetodosDePago {
+public class BebidaConsumicion extends Consumicion implements MetodosDePago {
 
 	private String nombre;
 	private float precio;
 
-	public Plato(String nombre, float precio) {
+	public BebidaConsumicion(String nombre, float precio) {
 		super();
 		this.nombre = nombre;
 		this.precio = precio;
@@ -13,15 +13,15 @@ public class Plato extends Consumicion implements MetodosDePago {
 
 	@Override
 	public String toString() {
-		return "Plato [nombre=" + nombre + ", precio=" + precio + "]";
+		return "Bebida [nombre=" + nombre + ", precio=" + precio + "]";
 	}
 
 	public float pagarConTarjetaVisa(int cantidad) {
-		return this.precio * cantidad;
+		return (float) ((this.precio * cantidad) * (1.0 - 0.03));
 	}
 
 	public float pagarConTarjetaMastercard(int cantidad) {
-		return (float) ((this.precio * cantidad) * (1.0 - 0.02));
+		return this.precio * cantidad;
 	}
 
 	public float pagarConTarjetaComarcaPlus(int cantidad) {

@@ -1,8 +1,8 @@
 package modelo;
 
-public class Tarjeta implements MedioDePago {
+public class TarjetaMedioDePago implements MedioDePago {
 
-	public Tarjeta() {
+	public TarjetaMedioDePago() {
 		super();
 	}
 

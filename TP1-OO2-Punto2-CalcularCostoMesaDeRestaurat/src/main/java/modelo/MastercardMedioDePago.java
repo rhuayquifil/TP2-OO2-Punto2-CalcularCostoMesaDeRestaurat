@@ -1,8 +1,8 @@
 package modelo;
 
-public class Mastercard implements MedioDePago {
+public class MastercardMedioDePago implements MedioDePago {
 
-	public Mastercard() {
+	public MastercardMedioDePago() {
 		super();
 	}
 

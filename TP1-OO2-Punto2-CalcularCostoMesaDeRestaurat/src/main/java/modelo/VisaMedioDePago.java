@@ -1,8 +1,8 @@
 package modelo;
 
-public class Visa implements MedioDePago {
+public class VisaMedioDePago implements MedioDePago {
 
-	public Visa() {
+	public VisaMedioDePago() {
 		super();
 	}
 

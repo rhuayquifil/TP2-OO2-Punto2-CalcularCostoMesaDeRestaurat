@@ -7,23 +7,23 @@ import java.util.Set;
 
 import exceptions.MesaExceptions;
 import exceptions.PropertiesExceptions;
-import modelo.Bebida;
+import modelo.BebidaConsumicion;
 import modelo.Item;
 import modelo.MedioDePago;
 import modelo.Mesa;
 import modelo.Pedido;
-import modelo.Plato;
-import modelo.Tarjeta;
-import modelo.almacenarRegistrosEnBase;
-import properties.DataBase;
+import modelo.PlatoConsumicion;
+import modelo.TarjetaMedioDePago;
+import modelo.BaseDeDatoGuardaDato;
+import properties.DataBaseAlmacenamiento;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Bebida cocaCola = new Bebida("Coca Cola", 400);
-		Bebida cerveza = new Bebida("Cerveza", 440);
-		Plato milanesa = new Plato("Milanesa de Carne", 900);
-		Plato pureDePapa = new Plato("Pure de Papa", 500);
+		BebidaConsumicion cocaCola = new BebidaConsumicion("Coca Cola", 400);
+		BebidaConsumicion cerveza = new BebidaConsumicion("Cerveza", 440);
+		PlatoConsumicion milanesa = new PlatoConsumicion("Milanesa de Carne", 900);
+		PlatoConsumicion pureDePapa = new PlatoConsumicion("Pure de Papa", 500);
 
 //		Set<Consumicion> listaConsumisionesMenu = new HashSet<Consumicion>();
 //		listaConsumisionesMenu.add(cocaCola);
@@ -53,16 +53,16 @@ public class Main {
 
 			// COPIA REGISTROS EN .DATABASE
 
-			DataBase properties = new DataBase(
+			DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
 					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\src\\main\\java\\properties\\database.properties");
 
 			Mesa miMesa = new Mesa(1,
-					new almacenarRegistrosEnBase(properties, "INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);"));
+					new BaseDeDatoGuardaDato(properties, "INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);"));
 
 			miMesa.nuevoPedido(miPedido);
 //			System.out.println(miMesa);
 
-			MedioDePago medioDePago = new Tarjeta();
+			MedioDePago medioDePago = new TarjetaMedioDePago();
 
 			System.out.println(miMesa.calcularCostoDeMesa(medioDePago, 5));
 
