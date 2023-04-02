@@ -14,7 +14,7 @@ import modelo.MedioDePago;
 import modelo.Mesa;
 import modelo.Pedido;
 import modelo.PlatoConsumicion;
-import modelo.TarjetaMedioDePago;
+import modelo.VisaMedioDePago;
 import properties.DataBaseAlmacenamiento;
 
 public class Main {
@@ -35,14 +35,19 @@ public class Main {
 //		Menu miMenu = new Menu("R.E.H Servicio Tecnico", listaConsumisionesMenu);
 //		System.out.println(miMenu);
 
-		Set<Item> listaConsumisiones = new HashSet<Item>();
-		listaConsumisiones.add(new Item(cocaCola, 2));
-		listaConsumisiones.add(new Item(milanesa, 1));
-		listaConsumisiones.add(new Item(pureDePapa, 2));
-//		System.out.println(listaConsumisiones);
+		// PRIMER PEDIDO
+		Set<Item> listaConsumisionesPrimerPedido = new HashSet<Item>();
+		listaConsumisionesPrimerPedido.add(new Item(cocaCola, 2));
+		listaConsumisionesPrimerPedido.add(new Item(milanesa, 1));
 
-		Pedido miPedido = new Pedido(1, listaConsumisiones);
-//		System.out.println(miPedido);
+		Pedido primerPedido = new Pedido(1, listaConsumisionesPrimerPedido);
+
+		// SEGUNDO PEDIDO
+		Set<Item> listaConsumisionesSegundoPedido = new HashSet<Item>();
+		listaConsumisionesSegundoPedido.add(new Item(cerveza, 2));
+		listaConsumisionesSegundoPedido.add(new Item(cocaCola, 1));
+
+		Pedido segundoPedido = new Pedido(1, listaConsumisionesSegundoPedido);
 
 		try {
 
@@ -59,10 +64,10 @@ public class Main {
 			Mesa miMesa = new Mesa(1,
 					new BaseDeDatoGuardaDato(properties, "INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);"));
 
-			miMesa.nuevoPedido(miPedido);
-//			System.out.println(miMesa);
+			miMesa.nuevoPedido(primerPedido);
+			miMesa.nuevoPedido(segundoPedido);
 
-			MedioDePago medioDePago = new TarjetaMedioDePago();
+			MedioDePago medioDePago = new VisaMedioDePago();
 
 			System.out.println(miMesa.calcularCostoDeMesa(medioDePago, 5));
 

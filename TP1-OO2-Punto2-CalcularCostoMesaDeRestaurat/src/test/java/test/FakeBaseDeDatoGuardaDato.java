@@ -12,7 +12,7 @@ import modelo.GuardaDato;
 
 public class FakeBaseDeDatoGuardaDato implements GuardaDato {
 
-	private double resultado;
+	private float resultado;
 	private Almacenamiento properties;
 	private String sqlInsertRegistro;
 
@@ -34,7 +34,7 @@ public class FakeBaseDeDatoGuardaDato implements GuardaDato {
 
 			String[] parts = registro.split(" \\| ");
 
-			resultado = Double.valueOf(parts[1]);
+			resultado = Float.valueOf(parts[1]);
 
 		} catch (SQLException e) {
 			throw new BaseDeDatosExceptions("error al prosesar consulta");
@@ -43,7 +43,7 @@ public class FakeBaseDeDatoGuardaDato implements GuardaDato {
 		}
 	}
 
-	double resultado() {
+	float resultado() {
 		return resultado;
 	}
 }
