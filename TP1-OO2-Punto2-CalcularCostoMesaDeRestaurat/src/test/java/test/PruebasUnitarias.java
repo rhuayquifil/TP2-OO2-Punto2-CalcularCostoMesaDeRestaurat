@@ -48,14 +48,9 @@ class PruebasUnitarias {
 
 		try {
 
-			// SOLUCION QUE ANDA PERO NO ME GUSTA, SE PODRIA CALCULAR EL COSTO ADENTRO DEL
-			// EQUALS
-
 			float costoMesa = miMesa.calcularCostoDeMesa(miTarjeta, 5);
 
 			assertEquals(fakeDisco.resultado(), costoMesa);
-
-			// SI LO HAGO ASI NO FUNCIONA EL SEGUNDO EQUALS POR SI SOLO
 
 //			assertEquals(814.8, miMesa.calcularCostoDeMesa(miTarjeta, 5), 0.001); // solo con bebidas
 //			assertEquals(fakeDisco.resultado(), miMesa.calcularCostoDeMesa(miTarjeta, 5));
