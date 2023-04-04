@@ -6,16 +6,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import exceptions.MesaExceptions;
-import exceptions.PropertiesExceptions;
-import modelo.BaseDeDatoGuardaDato;
 import modelo.BebidaConsumicion;
+import modelo.DiscoGuardaDato;
 import modelo.Item;
 import modelo.MedioDePago;
 import modelo.Mesa;
 import modelo.Pedido;
 import modelo.PlatoConsumicion;
 import modelo.VisaMedioDePago;
-import properties.DataBaseAlmacenamiento;
 
 public class Main {
 
@@ -53,23 +51,23 @@ public class Main {
 
 			// COPIA REGISTROS EN .TXT
 
-//			Mesa miMesa = new Mesa(1, new DiscoGuardaDato(
-//					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"));
+			Mesa miMesa = new Mesa(1, new DiscoGuardaDato(
+					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"));
 
 			// COPIA REGISTROS EN .DATABASE
 
-			DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
-					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\src\\main\\java\\properties\\database.properties");
-
-			Mesa miMesa = new Mesa(1,
-					new BaseDeDatoGuardaDato(properties, "INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);"));
+//			DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
+//					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\src\\main\\java\\properties\\database.properties");
+//
+//			Mesa miMesa = new Mesa(1,
+//					new BaseDeDatoGuardaDato(properties, "INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);"));
 
 			miMesa.nuevoPedido(primerPedido);
 			miMesa.nuevoPedido(segundoPedido);
 
 			MedioDePago medioDePago = new VisaMedioDePago();
 
-			System.out.println(miMesa.calcularCostoDeMesa(medioDePago, 5));
+			float costoMesa = miMesa.calcularCostoDeMesa(medioDePago, 5);
 
 		} catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
@@ -77,8 +75,8 @@ public class Main {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
-		} catch (PropertiesExceptions e) {
-			System.out.println(e.getMessage());
+//		} catch (PropertiesExceptions e) {
+//			System.out.println(e.getMessage());
 		} catch (MesaExceptions e) {
 			System.out.println(e.getMessage());
 		}
