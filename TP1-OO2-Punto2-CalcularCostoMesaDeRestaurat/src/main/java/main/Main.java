@@ -5,15 +5,17 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import exceptions.AlmacenamientoExceptions;
 import exceptions.MesaExceptions;
+import modelo.BaseDeDatoGuardaDato;
 import modelo.BebidaConsumicion;
-import modelo.DiscoGuardaDato;
 import modelo.Item;
 import modelo.MedioDePago;
 import modelo.Mesa;
 import modelo.Pedido;
 import modelo.PlatoConsumicion;
 import modelo.VisaMedioDePago;
+import properties.DataBaseAlmacenamiento;
 
 public class Main {
 
@@ -22,16 +24,6 @@ public class Main {
 		BebidaConsumicion cerveza = new BebidaConsumicion("Cerveza", 440);
 		PlatoConsumicion milanesa = new PlatoConsumicion("Milanesa de Carne", 900);
 		PlatoConsumicion pureDePapa = new PlatoConsumicion("Pure de Papa", 500);
-
-//		Set<Consumicion> listaConsumisionesMenu = new HashSet<Consumicion>();
-//		listaConsumisionesMenu.add(cocaCola);
-//		listaConsumisionesMenu.add(cerveza);
-//		listaConsumisionesMenu.add(milanesa);
-//		listaConsumisionesMenu.add(pureDePapa);
-//		System.out.println(listaConsumisionesMenu);
-
-//		Menu miMenu = new Menu("R.E.H Servicio Tecnico", listaConsumisionesMenu);
-//		System.out.println(miMenu);
 
 		// PRIMER PEDIDO
 		Set<Item> listaConsumisionesPrimerPedido = new HashSet<Item>();
@@ -43,7 +35,7 @@ public class Main {
 		// SEGUNDO PEDIDO
 		Set<Item> listaConsumisionesSegundoPedido = new HashSet<Item>();
 		listaConsumisionesSegundoPedido.add(new Item(cerveza, 2));
-		listaConsumisionesSegundoPedido.add(new Item(cocaCola, 1));
+//		listaConsumisionesSegundoPedido.add(new Item(cocaCola, 1));
 
 		Pedido segundoPedido = new Pedido(1, listaConsumisionesSegundoPedido);
 
@@ -51,16 +43,16 @@ public class Main {
 
 			// COPIA REGISTROS EN .TXT
 
-			Mesa miMesa = new Mesa(1, new DiscoGuardaDato(
-					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"));
+//			Mesa miMesa = new Mesa(1, new DiscoGuardaDato(
+//					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"));
 
 			// COPIA REGISTROS EN .DATABASE
 
-//			DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
-//					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\src\\main\\java\\properties\\database.properties");
-//
-//			Mesa miMesa = new Mesa(1,
-//					new BaseDeDatoGuardaDato(properties, "INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);"));
+			DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
+					"jdbc:mysql://127.0.0.1/costo_de_mesa_restaurant", "root", "");
+
+			Mesa miMesa = new Mesa(1,
+					new BaseDeDatoGuardaDato(properties, "INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);"));
 
 			miMesa.nuevoPedido(primerPedido);
 			miMesa.nuevoPedido(segundoPedido);
@@ -75,8 +67,8 @@ public class Main {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
-//		} catch (PropertiesExceptions e) {
-//			System.out.println(e.getMessage());
+		} catch (AlmacenamientoExceptions e) {
+			System.out.println(e.getMessage());
 		} catch (MesaExceptions e) {
 			System.out.println(e.getMessage());
 		}

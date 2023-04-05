@@ -9,8 +9,8 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import exceptions.AlmacenamientoExceptions;
 import exceptions.MesaExceptions;
-import exceptions.PropertiesExceptions;
 import modelo.BebidaConsumicion;
 import modelo.ComarcaPlusMedioDePago;
 import modelo.Consumicion;
@@ -78,7 +78,7 @@ class PruebasUnitarias {
 		try {
 
 			DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
-					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\src\\main\\java\\properties\\database.properties");
+					"jdbc:mysql://127.0.0.1/costo_de_mesa_restaurant", "root", "");
 
 			FakeBaseDeDatoGuardaDato fakeBase = new FakeBaseDeDatoGuardaDato(properties,
 					"INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);");
@@ -99,8 +99,8 @@ class PruebasUnitarias {
 			fail("exceptions IOException");
 		} catch (MesaExceptions e) {
 			fail("exceptions MesaExceptions");
-		} catch (PropertiesExceptions e) {
-			fail("exceptions PropertiesExceptions");
+		} catch (AlmacenamientoExceptions e) {
+			fail("exceptions AlmacenamientoExceptions");
 		}
 	}
 
@@ -153,7 +153,7 @@ class PruebasUnitarias {
 		try {
 
 			DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
-					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\src\\main\\java\\properties\\database.properties");
+					"jdbc:mysql://127.0.0.1/costo_de_mesa_restaurant", "root", "");
 
 			FakeBaseDeDatoGuardaDato fakeBase = new FakeBaseDeDatoGuardaDato(properties,
 					"INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);");
@@ -174,8 +174,8 @@ class PruebasUnitarias {
 			fail("exceptions IOException");
 		} catch (MesaExceptions e) {
 			fail("exceptions MesaExceptions");
-		} catch (PropertiesExceptions e) {
-			fail("exceptions PropertiesExceptions");
+		} catch (AlmacenamientoExceptions e) {
+			fail("exceptions AlmacenamientoExceptions");
 		}
 	}
 }
