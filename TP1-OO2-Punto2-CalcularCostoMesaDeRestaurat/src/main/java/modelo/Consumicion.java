@@ -2,19 +2,20 @@ package modelo;
 
 public abstract class Consumicion implements MetodosDePago {
 
-//	private String nombre;
-//	private float precio;
+	private String nombre;
+	private float precio;
 
-//	public Consumicion(String nombre, int precio) {
-//		this.nombre = nombre;
-//		this.precio = precio;
-//	}
-
-	public Consumicion() {
+	public Consumicion(String nombre, float precio) {
 		super();
+		this.nombre = nombre;
+		this.precio = precio;
 	}
-//	@Override
-//	public String toString() {
-//		return nombre + ", precio=" + precio;
-//	}
+
+	public String nombre() {
+		return nombre;
+	}
+
+	public float precio() {
+		return precio;
+	}
 }
