@@ -2,9 +2,8 @@ package modelo;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import exceptions.BaseDeDatosExceptions;
 import exceptions.GuardaDatoExceptions;
@@ -13,13 +12,15 @@ import exceptions.MesaExceptions;
 public class Mesa extends Observable {
 
 	private int id;
-	private Set<Pedido> listaPedido;
+//	private Set<Pedido> listaPedido;
 	private GuardaDato guardaDato;
+	private List<Item> listaItem;
 
 	public Mesa(int id, GuardaDato guardaDato, List<Observer> subscriptores) {
 		super();
 		this.id = id;
-		this.listaPedido = new HashSet<Pedido>();
+//		this.listaPedido = new HashSet<Pedido>();
+		this.listaItem = new ArrayList<>();
 		this.guardaDato = guardaDato;
 
 		for (Observer observer : subscriptores) {
@@ -27,8 +28,12 @@ public class Mesa extends Observable {
 		}
 	}
 
-	public void nuevoPedido(Pedido nuevoPedido) {
-		listaPedido.add(nuevoPedido);
+//	public void nuevoPedido(Pedido nuevoPedido) {
+//		listaPedido.add(nuevoPedido);
+//	}
+
+	public void agregarNuevoItem(Item item) {
+		this.listaItem.add(item);
 	}
 
 	@Override

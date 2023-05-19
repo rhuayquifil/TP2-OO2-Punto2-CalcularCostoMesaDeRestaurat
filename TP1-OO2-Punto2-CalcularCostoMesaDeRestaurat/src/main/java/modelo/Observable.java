@@ -21,4 +21,5 @@ public abstract class Observable {
 			subscriptor.actualizar(valor);
 		}
 	}
+
 }

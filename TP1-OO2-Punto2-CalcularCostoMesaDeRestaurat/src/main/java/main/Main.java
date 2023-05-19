@@ -7,7 +7,6 @@ import modelo.BebidaConsumicion;
 import modelo.Consumicion;
 import modelo.DiscoGuardaDato;
 import modelo.Mesa;
-import modelo.Observable;
 import modelo.Observer;
 import modelo.PlatoConsumicion;
 import ui.SeleccionDePlatosFrame;
@@ -43,7 +42,7 @@ public class Main {
 
 			List<Observer> listaSubs = new ArrayList<Observer>();
 
-			Observable miMesa = new Mesa(1,
+			Mesa miMesa = new Mesa(1,
 					new DiscoGuardaDato(
 							"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"),
 					listaSubs);
