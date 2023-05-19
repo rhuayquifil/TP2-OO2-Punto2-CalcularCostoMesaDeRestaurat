@@ -2,7 +2,10 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,10 +19,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import exceptions.MesaExceptions;
+import modelo.ComarcaPlusMedioDePago;
 import modelo.Consumicion;
 import modelo.Item;
 import modelo.JTextFieldTableCellEditor;
+import modelo.MastercardMedioDePago;
+import modelo.MedioDePago;
 import modelo.Mesa;
+import modelo.Pedido;
+import modelo.TarjetaMedioDePago;
+import modelo.VisaMedioDePago;
 
 public class SeleccionDePlatosFrame extends JFrame {
 
@@ -83,27 +93,80 @@ public class SeleccionDePlatosFrame extends JFrame {
 		btnPagarTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-//				Set<Item> listaConsumisiones = new HashSet<Item>();
+				Set<Item> listaConsumisiones = new HashSet<Item>();
 
 				for (int i = 0; i < table.getRowCount(); i++) {
-					if (table.getValueAt(i, 2) != null) {
-//						System.out.println(table.getValueAt(i, 0) + "  " + platosYBebidas.get(i).nombre() + " "
-//								+ table.getValueAt(i, 2));
-						mesa.agregarNuevoItem(
-								new Item(platosYBebidas.get(i), Integer.valueOf((String) table.getValueAt(i, 2))));
+					if (validations(i)) {
+						listaConsumisiones
+								.add(new Item(platosYBebidas.get(i), Integer.valueOf((String) table.getValueAt(i, 2))));
 					}
-
-					// TENES QUE ARMAR EL PEDIDO, PASARSELO A VENTA Y CALCULAR EL PRECIO
 				}
 
-				mesa.calcularCostoDeMesa(medioDePago(), propina);
+				if (listaConsumisiones.size() != 0) {
+					crearPedidoParaMesa(listaConsumisiones);
+					calcularCostoMesa();
+				}
 				actualizarTabla(scrollPane);
+			}
+
+			private void calcularCostoMesa() {
+				try {
+					float costoMesa = mesa.calcularCostoDeMesa(medioDePagoSeleccionado(), propina());
+				} catch (IOException | MesaExceptions e1) {
+					JOptionPane.showMessageDialog(null, "Error al calcular el costo de la mesa.");
+				}
+			}
+
+			private void crearPedidoParaMesa(Set<Item> listaConsumisiones) {
+				Pedido pedidoMesa = new Pedido(1, listaConsumisiones);
+
+				mesa.nuevoPedido(pedidoMesa);
+			}
+
+			private boolean validations(int i) {
+				if (table.getValueAt(i, 2) == null) {
+					return false;
+				}
+				if (table.getValueAt(i, 2).equals("")) {
+					return false;
+				}
+				return true;
+			}
+
+			private int propina() {
+				if (rdbtnPropina2Porciento.isSelected()) {
+					return 2;
+				}
+				if (rdbtnPropina3Porciento.isSelected()) {
+					return 3;
+				}
+				if (rdbtnPropina5Porciento.isSelected()) {
+					return 5;
+				}
+				throw new RuntimeException();
+			}
+
+			private MedioDePago medioDePagoSeleccionado() {
+				if (rdbtnPagarConVisa.isSelected()) {
+					return new VisaMedioDePago();
+				}
+				if (rdbtnPagarConMastercard.isSelected()) {
+					return new MastercardMedioDePago();
+				}
+				if (rdbtnPagarConComarcaPlus.isSelected()) {
+					return new ComarcaPlusMedioDePago();
+				}
+				if (rdbtnPagarConOtraTarjeta.isSelected()) {
+					return new TarjetaMedioDePago();
+				}
+				throw new RuntimeException();
 			}
 		});
 		btnPagarTotal.setBounds(80, 295, 180, 25);
 		contentPane.add(btnPagarTotal);
 
 		rdbtnPagarConVisa = new JRadioButton("Visa");
+		rdbtnPagarConVisa.setSelected(true);
 		rdbtnPagarConVisa.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

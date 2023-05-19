@@ -2,8 +2,9 @@ package modelo;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import exceptions.BaseDeDatosExceptions;
 import exceptions.GuardaDatoExceptions;
@@ -12,15 +13,13 @@ import exceptions.MesaExceptions;
 public class Mesa extends Observable {
 
 	private int id;
-//	private Set<Pedido> listaPedido;
+	private Set<Pedido> listaPedido;
 	private GuardaDato guardaDato;
-	private List<Item> listaItem;
 
 	public Mesa(int id, GuardaDato guardaDato, List<Observer> subscriptores) {
 		super();
 		this.id = id;
-//		this.listaPedido = new HashSet<Pedido>();
-		this.listaItem = new ArrayList<>();
+		this.listaPedido = new HashSet<Pedido>();
 		this.guardaDato = guardaDato;
 
 		for (Observer observer : subscriptores) {
@@ -28,17 +27,9 @@ public class Mesa extends Observable {
 		}
 	}
 
-//	public void nuevoPedido(Pedido nuevoPedido) {
-//		listaPedido.add(nuevoPedido);
-//	}
-
-	public void agregarNuevoItem(Item item) {
-		this.listaItem.add(item);
-	}
-
-	@Override
-	public String toString() {
-		return "Mesa [id=" + id + ", listaPedido=" + listaPedido + "]";
+	public void nuevoPedido(Pedido nuevoPedido) {
+		this.listaPedido = new HashSet<Pedido>(); // esta esto aca porque la mesa trabaja con un solo pedido por ahora
+		listaPedido.add(nuevoPedido);
 	}
 
 	public float calcularCostoDeMesa(MedioDePago medioDePago, int propina) throws IOException, MesaExceptions {
@@ -54,6 +45,7 @@ public class Mesa extends Observable {
 		try {
 
 			guardaDato.copiar(LocalDateTime.now().toString() + " | " + preciofinal);
+			this.notificar(String.valueOf(preciofinal));
 
 		} catch (GuardaDatoExceptions | BaseDeDatosExceptions e) {
 			throw new MesaExceptions("Error al cargar registro");

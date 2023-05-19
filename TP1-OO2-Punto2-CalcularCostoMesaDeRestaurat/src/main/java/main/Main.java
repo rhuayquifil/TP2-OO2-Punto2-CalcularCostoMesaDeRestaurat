@@ -7,6 +7,7 @@ import modelo.BebidaConsumicion;
 import modelo.Consumicion;
 import modelo.DiscoGuardaDato;
 import modelo.Mesa;
+import modelo.MonitorObserver;
 import modelo.Observer;
 import modelo.PlatoConsumicion;
 import ui.SeleccionDePlatosFrame;
@@ -14,33 +15,15 @@ import ui.SeleccionDePlatosFrame;
 public class Main {
 
 	public static void main(String[] args) {
-//		Consumicion cocaCola = new BebidaConsumicion("Coca Cola", 400);
-//		Consumicion cerveza = new BebidaConsumicion("Cerveza", 440);
-//		Consumicion milanesa = new PlatoConsumicion("Milanesa de Carne", 900);
-//		Consumicion pureDePapa = new PlatoConsumicion("Pure de Papa", 500);
-
-		// PRIMER PEDIDO
-//		Set<Item> listaConsumisionesPrimerPedido = new HashSet<Item>();
-//		listaConsumisionesPrimerPedido.add(new Item(cocaCola, 2));
-//		listaConsumisionesPrimerPedido.add(new Item(milanesa, 1));
-//
-//		Pedido primerPedido = new Pedido(1, listaConsumisionesPrimerPedido);
-
-		// SEGUNDO PEDIDO
-//		Set<Item> listaConsumisionesSegundoPedido = new HashSet<Item>();
-//		listaConsumisionesSegundoPedido.add(new Item(cerveza, 2));
-//		listaConsumisionesSegundoPedido.add(new Item(cocaCola, 1));
-
-//		Pedido segundoPedido = new Pedido(2, listaConsumisionesSegundoPedido);
-
 		try {
 			List<Consumicion> platosYBebidas = new ArrayList<Consumicion>();
 			platosYBebidas.add(new BebidaConsumicion("Coca Cola", 400));
 			platosYBebidas.add(new BebidaConsumicion("Cerveza", 440));
 			platosYBebidas.add(new PlatoConsumicion("Milanesa de Carne", 900));
-			platosYBebidas.add(new PlatoConsumicion("Pure de Papa", 500));
+			platosYBebidas.add(new PlatoConsumicion("Pure de Papa", 500000));
 
 			List<Observer> listaSubs = new ArrayList<Observer>();
+			listaSubs.add(new MonitorObserver());
 
 			Mesa miMesa = new Mesa(1,
 					new DiscoGuardaDato(
