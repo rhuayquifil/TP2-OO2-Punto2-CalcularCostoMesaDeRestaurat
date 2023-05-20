@@ -1,30 +1,20 @@
 package modelo;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import exceptions.BaseDeDatosExceptions;
-import exceptions.GuardaDatoExceptions;
 import exceptions.MesaExceptions;
 
-public class Mesa extends Observable {
+public class Mesa {
 
 	private int id;
 	private Set<Pedido> listaPedido;
-	private GuardaDato guardaDato;
 
-	public Mesa(int id, GuardaDato guardaDato, List<Observer> subscriptores) {
+	public Mesa(int id) {
 		super();
 		this.id = id;
 		this.listaPedido = new HashSet<Pedido>();
-		this.guardaDato = guardaDato;
-
-		for (Observer observer : subscriptores) {
-			this.subscribir(observer);
-		}
 	}
 
 	public void nuevoPedido(Pedido nuevoPedido) {
@@ -42,14 +32,14 @@ public class Mesa extends Observable {
 
 		float preciofinal = (float) (costoDeTodosLosPedidos * (1.0 + Float.valueOf("0.0" + propina)));
 
-		try {
-
-			guardaDato.copiar(LocalDateTime.now().toString() + " | " + preciofinal);
-			this.notificar(String.valueOf(preciofinal));
-
-		} catch (GuardaDatoExceptions | BaseDeDatosExceptions e) {
-			throw new MesaExceptions("Error al cargar registro");
-		}
+//		try {
+//
+//			guardaDato.copiar(LocalDateTime.now().toString() + " | " + preciofinal);
+//			this.notificar(String.valueOf(preciofinal));
+//
+//		} catch (GuardaDatoExceptions | BaseDeDatosExceptions e) {
+//			throw new MesaExceptions("Error al cargar registro");
+//		}
 
 		return preciofinal;
 //		return costoDeTodosLosPedidos;

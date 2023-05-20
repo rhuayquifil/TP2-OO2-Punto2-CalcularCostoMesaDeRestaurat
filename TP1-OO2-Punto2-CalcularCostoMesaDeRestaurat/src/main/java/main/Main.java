@@ -5,8 +5,8 @@ import java.util.List;
 
 import modelo.BebidaConsumicion;
 import modelo.Consumicion;
+import modelo.DefaultVentaObservable;
 import modelo.DiscoGuardaDato;
-import modelo.Mesa;
 import modelo.MonitorObserver;
 import modelo.Observer;
 import modelo.PlatoConsumicion;
@@ -25,12 +25,12 @@ public class Main {
 			List<Observer> listaSubs = new ArrayList<Observer>();
 			listaSubs.add(new MonitorObserver());
 
-			Mesa miMesa = new Mesa(1,
+			DefaultVentaObservable observable = new DefaultVentaObservable(
 					new DiscoGuardaDato(
 							"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"),
 					listaSubs);
 
-			SeleccionDePlatosFrame frame = new SeleccionDePlatosFrame(platosYBebidas, miMesa);
+			SeleccionDePlatosFrame frame = new SeleccionDePlatosFrame(platosYBebidas, observable);
 			frame.setVisible(true);
 			frame.setLocationRelativeTo(null);
 

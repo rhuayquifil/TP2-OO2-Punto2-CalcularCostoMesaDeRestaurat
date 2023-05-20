@@ -2,7 +2,6 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,16 +18,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import exceptions.MesaExceptions;
 import modelo.ComarcaPlusMedioDePago;
 import modelo.Consumicion;
+import modelo.DefaultVentaObservable;
 import modelo.Item;
 import modelo.JTextFieldTableCellEditor;
 import modelo.MastercardMedioDePago;
 import modelo.MedioDePago;
-import modelo.Mesa;
-import modelo.Pedido;
 import modelo.TarjetaMedioDePago;
+import modelo.VentasExceptions;
 import modelo.VisaMedioDePago;
 
 public class SeleccionDePlatosFrame extends JFrame {
@@ -37,7 +35,7 @@ public class SeleccionDePlatosFrame extends JFrame {
 	private JTable table;
 	private DefaultTableModel modelo;
 	private List<Consumicion> platosYBebidas;
-	private Mesa mesa;
+	private DefaultVentaObservable ventas;
 	private JRadioButton rdbtnPagarConVisa;
 	private JRadioButton rdbtnPagarConMastercard;
 	private JRadioButton rdbtnPagarConComarcaPlus;
@@ -46,10 +44,10 @@ public class SeleccionDePlatosFrame extends JFrame {
 	private JRadioButton rdbtnPropina3Porciento;
 	private JRadioButton rdbtnPropina5Porciento;
 
-	public SeleccionDePlatosFrame(List<Consumicion> platosYBebidas, Mesa mesa) {
+	public SeleccionDePlatosFrame(List<Consumicion> platosYBebidas, DefaultVentaObservable ventas) {
 
 		this.platosYBebidas = platosYBebidas;
-		this.mesa = mesa;
+		this.ventas = ventas;
 
 		setTitle("Seleccion De Platos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,25 +100,15 @@ public class SeleccionDePlatosFrame extends JFrame {
 					}
 				}
 
-				if (listaConsumisiones.size() != 0) {
-					crearPedidoParaMesa(listaConsumisiones);
-					calcularCostoMesa();
+				if (listaConsumisiones.size() > 0) {
+					try {
+						ventas.registrar(listaConsumisiones, medioDePagoSeleccionado(), propina());
+					} catch (VentasExceptions e1) {
+						JOptionPane.showMessageDialog(null, "Error al registrar venta");
+					}
 				}
+
 				actualizarTabla(scrollPane);
-			}
-
-			private void calcularCostoMesa() {
-				try {
-					float costoMesa = mesa.calcularCostoDeMesa(medioDePagoSeleccionado(), propina());
-				} catch (IOException | MesaExceptions e1) {
-					JOptionPane.showMessageDialog(null, "Error al calcular el costo de la mesa.");
-				}
-			}
-
-			private void crearPedidoParaMesa(Set<Item> listaConsumisiones) {
-				Pedido pedidoMesa = new Pedido(1, listaConsumisiones);
-
-				mesa.nuevoPedido(pedidoMesa);
 			}
 
 			private boolean validations(int i) {
