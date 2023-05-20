@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 import exceptions.BaseDeDatosExceptions;
 import exceptions.GuardaDatoExceptions;
@@ -21,20 +25,21 @@ public class BaseDeDatoGuardaDato implements GuardaDato {
 	}
 
 	@Override
-	public void copiar(String registro) throws IOException, GuardaDatoExceptions, BaseDeDatosExceptions {
-
+	public void copiar(HashMap<String, String> datosAGuardar)
+			throws IOException, GuardaDatoExceptions, BaseDeDatosExceptions {
 		try (Connection conn = DriverManager.getConnection(properties.get("url"), properties.get("usuario"),
 				properties.get("contrasena"));
 				java.sql.PreparedStatement state = conn.prepareStatement(sqlInsertRegistro)) {
 
 //			INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);
 
-			String[] parts = registro.split(" \\| ");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS");
+			Date parsedDate = dateFormat.parse(datosAGuardar.get("fecha"));
+			Timestamp fechaRegistro = new Timestamp(parsedDate.getTime());
 
-			java.sql.Timestamp fechaRegistro = java.sql.Timestamp.valueOf(LocalDateTime.parse(parts[0]));
 			state.setTimestamp(1, fechaRegistro);
 
-			state.setDouble(2, Double.valueOf(parts[1]));
+			state.setDouble(2, Double.valueOf(datosAGuardar.get("precioFinal")));
 
 			int cantidad = state.executeUpdate();
 
@@ -46,6 +51,8 @@ public class BaseDeDatoGuardaDato implements GuardaDato {
 			throw new BaseDeDatosExceptions("error al prosesar consulta");
 		} catch (IllegalArgumentException e) {
 			throw new BaseDeDatosExceptions("IllegalArgumentException");
+		} catch (ParseException e) {
+			throw new BaseDeDatosExceptions("ParseException");
 		}
 	}
 }

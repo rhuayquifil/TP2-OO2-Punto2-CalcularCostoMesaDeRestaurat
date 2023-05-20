@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -33,7 +34,12 @@ public class DefaultVentaObservable extends Observable {
 
 			// CAMBIAR COMO LE PASAS LOS DATOS A GUARDADATO
 
-			guardaDato.copiar(LocalDateTime.now().toString() + " | " + precioFinal);
+			HashMap<String, String> datosAGuardar = new HashMap<String, String>();
+//			datosAGuardar.put("fecha", LocalDateTime.now().toString());
+			datosAGuardar.put("fecha", String.valueOf(LocalDateTime.now()));
+			datosAGuardar.put("precioFinal", String.valueOf(precioFinal));
+
+			guardaDato.copiar(datosAGuardar);
 
 			this.notificar(String.valueOf(precioFinal));
 

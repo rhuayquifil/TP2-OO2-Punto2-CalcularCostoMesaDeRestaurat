@@ -104,7 +104,7 @@ public class SeleccionDePlatosFrame extends JFrame {
 					try {
 						ventas.registrar(listaConsumisiones, medioDePagoSeleccionado(), propina());
 					} catch (VentasExceptions e1) {
-						JOptionPane.showMessageDialog(null, "Error al registrar venta");
+						JOptionPane.showMessageDialog(null, e1.getMessage());
 					}
 				}
 
