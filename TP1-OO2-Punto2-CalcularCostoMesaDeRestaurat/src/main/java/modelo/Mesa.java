@@ -30,18 +30,6 @@ public class Mesa {
 			costoDeTodosLosPedidos += pedido.calcularCosto(medioDePago);
 		}
 
-		float preciofinal = (float) (costoDeTodosLosPedidos * (1.0 + Float.valueOf("0.0" + propina)));
-
-//		try {
-//
-//			guardaDato.copiar(LocalDateTime.now().toString() + " | " + preciofinal);
-//			this.notificar(String.valueOf(preciofinal));
-//
-//		} catch (GuardaDatoExceptions | BaseDeDatosExceptions e) {
-//			throw new MesaExceptions("Error al cargar registro");
-//		}
-
-		return preciofinal;
-//		return costoDeTodosLosPedidos;
+		return (float) (costoDeTodosLosPedidos * (1.0 + Float.valueOf("0.0" + propina)));
 	}
 }

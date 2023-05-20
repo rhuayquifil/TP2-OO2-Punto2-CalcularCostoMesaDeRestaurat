@@ -8,6 +8,7 @@ import modelo.BaseDeDatoGuardaDato;
 import modelo.BebidaConsumicion;
 import modelo.Consumicion;
 import modelo.DefaultVentaObservable;
+import modelo.DiscoGuardaDato;
 import modelo.GuardaDato;
 import modelo.MonitorObserver;
 import modelo.Observer;
@@ -30,8 +31,8 @@ public class Main {
 
 			try {
 
-//				GuardaDato disco = new DiscoGuardaDato(
-//						"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt", " - ");
+				GuardaDato disco = new DiscoGuardaDato(
+						"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt", " - ");
 
 				DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
 						"jdbc:mysql://127.0.0.1/costo_de_mesa_restaurant", "root", "");

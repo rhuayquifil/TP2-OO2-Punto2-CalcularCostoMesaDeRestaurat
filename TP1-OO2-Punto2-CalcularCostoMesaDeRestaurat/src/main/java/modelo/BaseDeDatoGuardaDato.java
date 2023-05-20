@@ -33,9 +33,10 @@ public class BaseDeDatoGuardaDato implements GuardaDato {
 
 //			INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS");
-			Date parsedDate = dateFormat.parse(datosAGuardar.get("fecha"));
-			Timestamp fechaRegistro = new Timestamp(parsedDate.getTime());
+			SimpleDateFormat formatoOriginal = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS");
+			Date dateOriginal = formatoOriginal.parse(datosAGuardar.get("fecha"));
+
+			Timestamp fechaRegistro = new Timestamp(dateOriginal.getTime());
 
 			state.setTimestamp(1, fechaRegistro);
 

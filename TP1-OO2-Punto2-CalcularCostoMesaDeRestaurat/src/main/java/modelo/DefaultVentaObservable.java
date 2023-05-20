@@ -35,8 +35,7 @@ public class DefaultVentaObservable extends Observable {
 			// CAMBIAR COMO LE PASAS LOS DATOS A GUARDADATO
 
 			HashMap<String, String> datosAGuardar = new HashMap<String, String>();
-//			datosAGuardar.put("fecha", LocalDateTime.now().toString());
-			datosAGuardar.put("fecha", String.valueOf(LocalDateTime.now()));
+			datosAGuardar.put("fecha", LocalDateTime.now().toString());
 			datosAGuardar.put("precioFinal", String.valueOf(precioFinal));
 
 			guardaDato.copiar(datosAGuardar);
