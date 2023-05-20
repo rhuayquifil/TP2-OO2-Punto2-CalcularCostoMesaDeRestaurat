@@ -29,57 +29,25 @@ public class Main {
 			List<Observer> listaSubs = new ArrayList<Observer>();
 			listaSubs.add(new MonitorObserver());
 
-			try {
+			GuardaDato disco = new DiscoGuardaDato(
+					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt", " - ");
 
-				GuardaDato disco = new DiscoGuardaDato(
-						"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt", " - ");
+			DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
+					"jdbc:mysql://127.0.0.1/costo_de_mesa_restaurant", "root", "");
 
-				DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
-						"jdbc:mysql://127.0.0.1/costo_de_mesa_restaurant", "root", "");
+			GuardaDato baseDeDatos = new BaseDeDatoGuardaDato(properties,
+					"INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);");
 
-				GuardaDato baseDeDatos = new BaseDeDatoGuardaDato(properties,
-						"INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);");
+			DefaultVentaObservable observable = new DefaultVentaObservable(baseDeDatos, listaSubs);
 
-				DefaultVentaObservable observable = new DefaultVentaObservable(baseDeDatos, listaSubs);
-
-				SeleccionDePlatosFrame frame = new SeleccionDePlatosFrame(platosYBebidas, observable);
-				frame.setVisible(true);
-				frame.setLocationRelativeTo(null);
-			} catch (AlmacenamientoExceptions e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			// COPIA REGISTROS EN .TXT
-
-//			Mesa miMesa = new Mesa(1, new DiscoGuardaDato(
-//					"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt"));
-
-			// COPIA REGISTROS EN .DATABASE
-
-//			DataBaseAlmacenamiento properties = new DataBaseAlmacenamiento(
-//					"jdbc:mysql://127.0.0.1/costo_de_mesa_restaurant", "root", "");
-//
-//			Mesa miMesa = new Mesa(1,
-//					new BaseDeDatoGuardaDato(properties, "INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);"));
-
-//			miMesa.nuevoPedido(primerPedido);
-//			miMesa.nuevoPedido(segundoPedido);
-//
-//			MedioDePago medioDePago = new VisaMedioDePago();
-//
-//			float costoMesa = miMesa.calcularCostoDeMesa(medioDePago, 5);
+			SeleccionDePlatosFrame frame = new SeleccionDePlatosFrame(platosYBebidas, observable);
+			frame.setVisible(true);
+			frame.setLocationRelativeTo(null);
 
 		} catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
-//		} catch (FileNotFoundException e) {
-//			System.out.println(e.getMessage());
-//		} catch (IOException e) {
-//			System.out.println(e.getMessage());
-//		} catch (AlmacenamientoExceptions e) {
-//			System.out.println(e.getMessage());
-//		} catch (MesaExceptions e) {
-//			System.out.println(e.getMessage());
+		} catch (AlmacenamientoExceptions e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }

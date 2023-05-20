@@ -33,7 +33,7 @@ public class BaseDeDatoGuardaDato implements GuardaDato {
 
 //			INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);
 
-			SimpleDateFormat formatoOriginal = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS");
+			SimpleDateFormat formatoOriginal = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateOriginal = formatoOriginal.parse(datosAGuardar.get("fecha"));
 
 			Timestamp fechaRegistro = new Timestamp(dateOriginal.getTime());

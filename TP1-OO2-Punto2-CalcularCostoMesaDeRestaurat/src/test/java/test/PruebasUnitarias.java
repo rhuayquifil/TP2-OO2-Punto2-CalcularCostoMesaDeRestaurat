@@ -3,24 +3,25 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import exceptions.AlmacenamientoExceptions;
-import exceptions.MesaExceptions;
 import modelo.BebidaConsumicion;
 import modelo.ComarcaPlusMedioDePago;
 import modelo.Consumicion;
+import modelo.DefaultVentaObservable;
 import modelo.Item;
 import modelo.MastercardMedioDePago;
-import modelo.MedioDePago;
-import modelo.Mesa;
-import modelo.Pedido;
+import modelo.Observer;
 import modelo.PlatoConsumicion;
 import modelo.TarjetaMedioDePago;
+import modelo.VentasExceptions;
 import modelo.VisaMedioDePago;
 import properties.DataBaseAlmacenamiento;
 
@@ -28,52 +29,46 @@ class PruebasUnitarias {
 
 	@Test
 	void CalculoDeCostoConTarjetaVisa() {
+
 		Consumicion cocaCola = new BebidaConsumicion("Coca Cola", 400);
 		Consumicion milanesa = new PlatoConsumicion("Milanesa de Carne", 900);
 
-		Set<Item> listaConsumisionesPedido = new HashSet<Item>();
-		listaConsumisionesPedido.add(new Item(cocaCola, 2));
-		listaConsumisionesPedido.add(new Item(milanesa, 1));
+		Set<Item> listaConsumisiones = new HashSet<Item>();
 
-		Pedido miPedido = new Pedido(1, listaConsumisionesPedido);
+		listaConsumisiones.add(new Item(cocaCola, 2));
+		listaConsumisiones.add(new Item(milanesa, 1));
 
-		FakeDiscoGuardaDato fakeDisco = new FakeDiscoGuardaDato(
-				"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt");
+		FakeDiscoGuardaDato disco = new FakeDiscoGuardaDato(
+				"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt", " - ");
 
-		Mesa miMesa = new Mesa(1, fakeDisco);
+		List<Observer> listaSubs = new ArrayList<Observer>();
+		listaSubs.add(new FakeMonitorObserver());
 
-		miMesa.nuevoPedido(miPedido);
+		DefaultVentaObservable ventas = new DefaultVentaObservable(disco, listaSubs);
 
-		MedioDePago miTarjeta = new VisaMedioDePago();
+		int propina = 2;
 
 		try {
+			ventas.registrar(listaConsumisiones, LocalDate.of(2023, 05, 18), new VisaMedioDePago(), propina);
+			String resultado = disco.resultado();
+			assertEquals("2023-05-18 - 1709.52", resultado);
 
-			float costoMesa = miMesa.calcularCostoDeMesa(miTarjeta, 5);
-
-			assertEquals(fakeDisco.resultado(), costoMesa);
-
-//			assertEquals(814.8, miMesa.calcularCostoDeMesa(miTarjeta, 5), 0.001); // solo con bebidas
-//			assertEquals(fakeDisco.resultado(), miMesa.calcularCostoDeMesa(miTarjeta, 5));
-
-		} catch (NumberFormatException e) {
-			fail("exceptions NumberFormatException");
-		} catch (IOException e) {
-			fail("exceptions IOException");
-		} catch (MesaExceptions e) {
-			fail("exceptions MesaExceptions");
+		} catch (VentasExceptions e1) {
+			fail("exceptions VentasExceptions");
 		}
 	}
 
 	@Test
 	void CalculoDeCostoConTarjetaMastercard() {
-		Consumicion cocaCola = new BebidaConsumicion("Coca Cola", 400);
+
 		Consumicion milanesa = new PlatoConsumicion("Milanesa de Carne", 900);
+		Consumicion pureDePapa = new PlatoConsumicion("Pure de Papa", 500);
+		Consumicion cocaCola = new BebidaConsumicion("Coca Cola", 400);
 
-		Set<Item> listaConsumisionesPedido = new HashSet<Item>();
-		listaConsumisionesPedido.add(new Item(cocaCola, 2));
-		listaConsumisionesPedido.add(new Item(milanesa, 1));
-
-		Pedido miPedido = new Pedido(1, listaConsumisionesPedido);
+		Set<Item> listaConsumisiones = new HashSet<Item>();
+		listaConsumisiones.add(new Item(cocaCola, 2));
+		listaConsumisiones.add(new Item(milanesa, 1));
+		listaConsumisiones.add(new Item(pureDePapa, 2));
 
 		try {
 
@@ -83,22 +78,19 @@ class PruebasUnitarias {
 			FakeBaseDeDatoGuardaDato fakeBase = new FakeBaseDeDatoGuardaDato(properties,
 					"INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);");
 
-			Mesa miMesa = new Mesa(1, fakeBase);
+			List<Observer> listaSubs = new ArrayList<Observer>();
+			listaSubs.add(new FakeMonitorObserver());
 
-			miMesa.nuevoPedido(miPedido);
+			DefaultVentaObservable ventas = new DefaultVentaObservable(fakeBase, listaSubs);
 
-			MedioDePago miTarjeta = new MastercardMedioDePago();
+			int propina = 5;
 
-			float costoMesa = miMesa.calcularCostoDeMesa(miTarjeta, 3);
+			ventas.registrar(listaConsumisiones, LocalDate.of(2023, 05, 18), new MastercardMedioDePago(), propina);
+			String resultado = fakeBase.resultado();
+			assertEquals("2023-05-18 - 2795.1", resultado);
 
-			assertEquals(fakeBase.resultado(), costoMesa);
-
-		} catch (NumberFormatException e) {
-			fail("exceptions NumberFormatException");
-		} catch (IOException e) {
-			fail("exceptions IOException");
-		} catch (MesaExceptions e) {
-			fail("exceptions MesaExceptions");
+		} catch (VentasExceptions e1) {
+			fail("exceptions VentasExceptions");
 		} catch (AlmacenamientoExceptions e) {
 			fail("exceptions AlmacenamientoExceptions");
 		}
@@ -106,49 +98,43 @@ class PruebasUnitarias {
 
 	@Test
 	void CalculoDeCostoConTarjetaComarcaPlus() {
-		Consumicion cocaCola = new BebidaConsumicion("Coca Cola", 400);
-		Consumicion milanesa = new PlatoConsumicion("Milanesa de Carne", 900);
+		Consumicion cerveza = new BebidaConsumicion("Cerveza", 440);
 
-		Set<Item> listaConsumisionesPedido = new HashSet<Item>();
-		listaConsumisionesPedido.add(new Item(cocaCola, 2));
-		listaConsumisionesPedido.add(new Item(milanesa, 1));
+		Set<Item> listaConsumisiones = new HashSet<Item>();
+		listaConsumisiones.add(new Item(cerveza, 10));
 
-		Pedido miPedido = new Pedido(1, listaConsumisionesPedido);
+		FakeDiscoGuardaDato disco = new FakeDiscoGuardaDato(
+				"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt", " - ");
 
-		FakeDiscoGuardaDato fakeDisco = new FakeDiscoGuardaDato(
-				"C:\\Users\\ezehu\\git\\TP1-OO2-Punto2-CalcularCostoMesaDeRestaurat\\salida.txt");
+		List<Observer> listaSubs = new ArrayList<Observer>();
+		listaSubs.add(new FakeMonitorObserver());
 
-		Mesa miMesa = new Mesa(1, fakeDisco);
+		DefaultVentaObservable ventas = new DefaultVentaObservable(disco, listaSubs);
 
-		miMesa.nuevoPedido(miPedido);
-
-		MedioDePago miTarjeta = new ComarcaPlusMedioDePago();
+		int propina = 2;
 
 		try {
+			ventas.registrar(listaConsumisiones, LocalDate.of(2023, 05, 18), new ComarcaPlusMedioDePago(), propina);
+			String resultado = disco.resultado();
+			assertEquals("2023-05-18 - 4398.24", resultado);
 
-			float costoMesa = miMesa.calcularCostoDeMesa(miTarjeta, 5);
-
-			assertEquals(fakeDisco.resultado(), costoMesa);
-
-		} catch (NumberFormatException e) {
-			fail("exceptions NumberFormatException");
-		} catch (IOException e) {
-			fail("exceptions IOException");
-		} catch (MesaExceptions e) {
-			fail("exceptions MesaExceptions");
+		} catch (VentasExceptions e1) {
+			fail("exceptions VentasExceptions");
 		}
 	}
 
 	@Test
 	void CalculoDeCostoConTarjetaViedma() {
-		Consumicion cocaCola = new BebidaConsumicion("Coca Cola", 400);
 		Consumicion milanesa = new PlatoConsumicion("Milanesa de Carne", 900);
+		Consumicion pureDePapa = new PlatoConsumicion("Pure de Papa", 500);
+		Consumicion cocaCola = new BebidaConsumicion("Coca Cola", 400);
+		Consumicion cerveza = new BebidaConsumicion("Cerveza", 440);
 
-		Set<Item> listaConsumisionesPedido = new HashSet<Item>();
-		listaConsumisionesPedido.add(new Item(cocaCola, 2));
-		listaConsumisionesPedido.add(new Item(milanesa, 1));
-
-		Pedido miPedido = new Pedido(1, listaConsumisionesPedido);
+		Set<Item> listaConsumisiones = new HashSet<Item>();
+		listaConsumisiones.add(new Item(cocaCola, 1));
+		listaConsumisiones.add(new Item(milanesa, 1));
+		listaConsumisiones.add(new Item(pureDePapa, 1));
+		listaConsumisiones.add(new Item(cerveza, 1));
 
 		try {
 
@@ -158,22 +144,19 @@ class PruebasUnitarias {
 			FakeBaseDeDatoGuardaDato fakeBase = new FakeBaseDeDatoGuardaDato(properties,
 					"INSERT INTO registro (fecha, monto)" + "VALUES (?, ?);");
 
-			Mesa miMesa = new Mesa(1, fakeBase);
+			List<Observer> listaSubs = new ArrayList<Observer>();
+			listaSubs.add(new FakeMonitorObserver());
 
-			miMesa.nuevoPedido(miPedido);
+			DefaultVentaObservable ventas = new DefaultVentaObservable(fakeBase, listaSubs);
 
-			MedioDePago miTarjeta = new TarjetaMedioDePago();
+			int propina = 3;
 
-			float costoMesa = miMesa.calcularCostoDeMesa(miTarjeta, 3);
+			ventas.registrar(listaConsumisiones, LocalDate.of(2023, 05, 18), new TarjetaMedioDePago(), propina);
+			String resultado = fakeBase.resultado();
+			assertEquals("2023-05-18 - 2307.2", resultado);
 
-			assertEquals(fakeBase.resultado(), costoMesa);
-
-		} catch (NumberFormatException e) {
-			fail("exceptions NumberFormatException");
-		} catch (IOException e) {
-			fail("exceptions IOException");
-		} catch (MesaExceptions e) {
-			fail("exceptions MesaExceptions");
+		} catch (VentasExceptions e1) {
+			fail("exceptions VentasExceptions");
 		} catch (AlmacenamientoExceptions e) {
 			fail("exceptions AlmacenamientoExceptions");
 		}

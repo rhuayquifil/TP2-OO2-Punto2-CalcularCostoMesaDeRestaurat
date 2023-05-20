@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -102,7 +103,7 @@ public class SeleccionDePlatosFrame extends JFrame {
 
 				if (listaConsumisiones.size() > 0) {
 					try {
-						ventas.registrar(listaConsumisiones, medioDePagoSeleccionado(), propina());
+						ventas.registrar(listaConsumisiones, LocalDate.now(), medioDePagoSeleccionado(), propina());
 					} catch (VentasExceptions e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
 					}

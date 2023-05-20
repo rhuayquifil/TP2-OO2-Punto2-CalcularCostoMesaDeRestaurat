@@ -1,7 +1,7 @@
 package modelo;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +24,8 @@ public class DefaultVentaObservable extends Observable {
 		}
 	}
 
-	public void registrar(Set<Item> listaConsumisiones, MedioDePago medioDePago, int propina) throws VentasExceptions {
+	public void registrar(Set<Item> listaConsumisiones, LocalDate fecha, MedioDePago medioDePago, int propina)
+			throws VentasExceptions {
 		mesa = new Mesa(1);
 		crearPedidoParaMesa(listaConsumisiones);
 
@@ -32,10 +33,8 @@ public class DefaultVentaObservable extends Observable {
 
 			float precioFinal = mesa.calcularCostoDeMesa(medioDePago, propina);
 
-			// CAMBIAR COMO LE PASAS LOS DATOS A GUARDADATO
-
 			HashMap<String, String> datosAGuardar = new HashMap<String, String>();
-			datosAGuardar.put("fecha", LocalDateTime.now().toString());
+			datosAGuardar.put("fecha", fecha.toString());
 			datosAGuardar.put("precioFinal", String.valueOf(precioFinal));
 
 			guardaDato.copiar(datosAGuardar);
